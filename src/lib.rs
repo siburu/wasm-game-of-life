@@ -24,6 +24,7 @@ pub struct Universe {
     cells: Vec<Cell>,
 }
 
+#[wasm_bindgen]
 impl Universe {
     pub fn new() -> Universe {
         let width = 64;
