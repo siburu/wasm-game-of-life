@@ -95,8 +95,8 @@ impl fmt::Display for Universe {
         for line in self.cells.as_slice().chunks(self.width as usize) {
             for &cell in line {
                 let symbol = match cell {
-                    Cell::Alive => '□',
-                    Cell::Dead => '■',
+                    Cell::Alive => '■',
+                    Cell::Dead => '□',
                 };
                 write!(f, "{}", symbol)?;
             }
