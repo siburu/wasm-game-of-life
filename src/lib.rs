@@ -27,20 +27,19 @@ pub struct Universe {
 #[wasm_bindgen]
 impl Universe {
     pub fn new() -> Universe {
-        let width = 64;
-        let height = 64;
+        let width: u32 = 64;
+        let height: u32 = 64;
 
-        let cells = (0..width*height)
-            .map(|i| 
-                 if i % 2 == 0 || i % 7 == 0 {
-                     Cell::Alive
-                 } else {
-                     Cell::Dead
-                 }
-            )
-            .collect();
+        let mut cells = Vec::default();
+        cells.resize((width * height) as usize, Cell::Dead);
 
-        Universe { width, height, cells }
+        let mut universe = Universe { width, height, cells };
+        for (row, col) in [(0, 1), (1, 2), (2, 0), (2, 1), (2, 2)].iter() {
+            let idx = universe.get_index(*row, *col);
+            universe.cells[idx] = Cell::Alive;
+        }
+
+        universe
     }
 
     pub fn width(&self) -> u32 {
