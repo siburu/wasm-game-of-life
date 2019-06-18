@@ -1,6 +1,7 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+use js_sys::Math;
 use std::fmt;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -30,16 +31,11 @@ impl Universe {
         let width: u32 = 64;
         let height: u32 = 64;
 
-        let mut cells = Vec::default();
-        cells.resize((width * height) as usize, Cell::Dead);
+        let cells = (0..width*height)
+            .map(|_| if Math::random() < 0.5 { Cell::Alive } else { Cell::Dead })
+            .collect();
 
-        let mut universe = Universe { width, height, cells };
-        for (row, col) in [(0, 1), (1, 2), (2, 0), (2, 1), (2, 2)].iter() {
-            let idx = universe.get_index(*row, *col);
-            universe.cells[idx] = Cell::Alive;
-        }
-
-        universe
+        Universe { width, height, cells }
     }
 
     pub fn width(&self) -> u32 {
